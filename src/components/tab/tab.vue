@@ -3,11 +3,11 @@
     <router-link tag="div" class="tab-item" to="/home">
       <span class="tab-link">主页</span>
     </router-link>
-    <router-link tag="div" class="tab-item" to="/page2">
-      <span class="tab-link">页面2</span>
+    <router-link tag="div" class="tab-item" to="/write">
+      <span class="tab-link">记录</span>
     </router-link>
-    <router-link tag="div" class="tab-item" to="/page3">
-      <span class="tab-link">页面3</span>
+    <router-link tag="div" class="tab-item" to="/statistics">
+      <span class="tab-link">统计</span>
     </router-link>
     <router-link tag="div" class="tab-item" to="/user">
       <span class="tab-link">我的</span>

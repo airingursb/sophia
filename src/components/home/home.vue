@@ -1,26 +1,30 @@
 <template>
-  <div class="container">
-    <scroll class="home-content">
+  <div class="home-container">
+    <div class="home-content">
       <div>
         <div v-if="recommends.length" class="slider-wrapper">
           <div class="slider-content">
             <slider ref="scroll">
               <div v-for="item in recommends">
-                <a href="">
+                <a :href="item">
                   <img @load="loadImage" :src="item">
                 </a>
               </div>
             </slider>
           </div>
         </div>
+        <div class="box">
+          <h1 class="box-title">生命格子</h1>
+          <box></box>
+        </div>
       </div>
-    </scroll>
+    </div>
   </div>
 </template>
 
 <script type="text/ecmascript-6">
   import Slider from 'base/slider/slider'
-  import Scroll from 'base/scroll/scroll'
+  import Box from 'components/box/box'
 
   export default {
     data() {
@@ -53,7 +57,7 @@
     },
     components: {
       Slider,
-      Scroll
+      Box
     }
   }
 </script>
@@ -61,11 +65,10 @@
 <style scoped lang="stylus" rel="stylesheet/stylus">
   @import "~common/stylus/variable"
 
-  .container
-    position fixed
+  .home-container
+    display flex
     width 100%
-    top 180px
-    bottom 0
+    justify-content center
     .home-content
       height 100%
       overflow hidden
@@ -81,4 +84,12 @@
           left: 0
           width: 100%
           height: 100%
+      .box
+        .box-title
+          height: 65px
+          line-height: 65px
+          text-align: center
+          font-size: $font-size-medium
+          color: $color-theme
+
 </style>
