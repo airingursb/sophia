@@ -7,6 +7,24 @@ const Home = (resolve) => {
   })
 }
 
+const Write = (resolve) => {
+  import('components/write/write').then((module) => {
+    resolve(module)
+  })
+}
+
+const Statistics = (resolve) => {
+  import('components/statistics/statistics').then((module) => {
+    resolve(module)
+  })
+}
+
+const User = (resolve) => {
+  import('components/user/user').then((module) => {
+    resolve(module)
+  })
+}
+
 Vue.use(Router)
 
 export default new Router({
@@ -18,6 +36,18 @@ export default new Router({
     {
       path: '/home',
       component: Home
+    },
+    {
+      path: '/write',
+      component: Write
+    },
+    {
+      path: '/statistics',
+      component: Statistics
+    },
+    {
+      path: '/user',
+      component: User
     }
   ]
 })

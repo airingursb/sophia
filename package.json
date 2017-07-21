@@ -1,7 +1,7 @@
 {
-  "name": "life-box",
+  "name": "philosopher",
   "version": "1.0.0",
-  "description": "Life Box",
+  "description": "philosopher",
   "author": "Airing <gx-deng@163.com>",
   "private": true,
   "scripts": {

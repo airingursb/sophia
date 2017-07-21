@@ -1,6 +1,6 @@
-# life-box
+# philosopher
 
-> Life Box
+> Philosopher
 
 ## Build Setup
 
