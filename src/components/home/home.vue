@@ -237,15 +237,15 @@
           <span @click="selectRegister" class="no-account">没有账户？</span>
         </span>
         <span v-if="!this.loginPage" class="login-username">
-          <input class="login-username-input" type="text" placeholder="手机号"/>
-          <input class="login-username-input" type="text" placeholder="验证码"/>
-          <input class="login-username-input" type="password" placeholder="密码"/>
-          <input class="login-username-input" type="text" placeholder="真实姓名"/>
-          <input class="login-username-input" type="text" placeholder="性别(男/女)"/>
-          <input class="login-username-input" type="text" placeholder="所在班级"/>
-          <input class="login-username-input" type="text" placeholder="所在学校"/>
+          <input ref="registerPhoneNumber" class="login-username-input" type="text" placeholder="手机号"/>
+          <input ref="registerCode" class="login-username-input" type="text" placeholder="验证码"/>
+          <input ref="registerPassword" class="login-username-input" type="password" placeholder="密码"/>
+          <input ref="registerUsername" class="login-username-input" type="text" placeholder="真实姓名"/>
+          <input ref="registerSex" class="login-username-input" type="text" placeholder="性别(男/女)"/>
+          <input ref="registerClassName" class="login-username-input" type="text" placeholder="所在班级"/>
+          <input ref="registerSchool" class="login-username-input" type="text" placeholder="所在学校"/>
           <span class="button">发送验证码</span>
-          <span class="button">注册</span>
+          <span @click="_register" class="button">注册</span>
           <span @click="selectLogin" class="no-account">已有账户？</span>
         </span>
       </div>
@@ -257,8 +257,9 @@
   import Scroll from 'base/scroll/scroll'
   import Star from 'components/star/star'
   import Search from 'components/search/search'
-  import {mapGetters} from 'vuex'
-  import {login} from 'api/user'
+  import { mapGetters, mapActions } from 'vuex'
+  import { login, register } from 'api/user'
+  import sha1 from 'sha1'
 
   export default {
     data() {
@@ -339,7 +340,9 @@
     },
     computed: {
       ...mapGetters([
-        'token'
+        'token',
+        'timestamp',
+        'uid'
       ])
     },
     watch: {
@@ -414,14 +417,46 @@
         this.$refs.login.style.height = '541px'
       },
       _login() {
+        if (this.$refs.loginPhoneNumber.value === '' || this.$refs.loginPassword.value === '') {
+          this.$swal('登录失败!', '请输入账号和密码！', 'warning')
+          return
+        }
         let params = {
           phonenumber: this.$refs.loginPhoneNumber.value,
-          password: this.$refs.loginPassword.value
+          password: sha1(this.$refs.loginPassword.value)
         }
         login(params).then(res => {
           console.log(res)
+          if (res.status === 0) {
+            let data = {
+              token: res.token,
+              timestamp: res.timestamp,
+              uid: res.data.id
+            }
+            this.saveLogin(data)
+            this.$swal('登录成功!', '登录成功！欢迎来到哲学世界！', 'success')
+          } else {
+            this.$swal('登录失败!', '用户名或密码错误！', 'warning')
+          }
         })
-      }
+      },
+      _register() {
+        let params = {
+          phonenumber: this.$refs.registerPhoneNumber.value,
+          password: this.$refs.registerPassword.value,
+          code: this.$refs.registerCode.value,
+          username: this.$refs.registerUsername.value,
+          sex: this.$refs.registerSex.value === '男' ? 0 : 1,
+          className: this.$refs.registerClassName.value,
+          school: this.$refs.registerSchool.value
+        }
+        register(params).then(res => {
+          console.log(res)
+        })
+      },
+      ...mapActions([
+        'saveLogin'
+      ])
     },
     components: {
       Star,
@@ -534,6 +569,8 @@
             border-radius 4px
             background-color #42B983
             color #eee
+            &:hover
+              background-color #3BA170
           .no-account
             display block
             margin-top 18px
