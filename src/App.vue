@@ -1,7 +1,6 @@
 <template>
   <div id="app" @touchmove.prevent>
-    <avatar></avatar>
-    <tab></tab>
+    <navigation></navigation>
     <keep-alive>
       <router-view></router-view>
     </keep-alive>
@@ -9,12 +8,11 @@
 </template>
 
 <script type="text/ecmascript-6">
-  import Avatar from 'components/avatar/avatar'
-  import Tab from 'components/tab/tab'
+  import Navigation from 'components/navigation/navigation'
+
   export default {
     components: {
-      Avatar,
-      Tab
+      Navigation
     }
   }
 </script>

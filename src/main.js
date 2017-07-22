@@ -6,6 +6,8 @@ import fastclick from 'fastclick'
 import VueLazyload from 'vue-lazyload'
 import store from './store'
 
+import 'common/stylus/index.styl'
+
 fastclick.attach(document.body)
 
 Vue.use(VueLazyload, {
