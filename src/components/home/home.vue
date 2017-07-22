@@ -18,7 +18,7 @@
         </div>
       </scroll>
     </div>
-    <div class="philosopher-wrapper">
+    <div v-show="this.token.length !== 0" class="philosopher-wrapper">
       <div ref="editor" class="editor">
         <span class="add"></span>
         <span class="delete"></span>
@@ -227,6 +227,29 @@
         </div>
       </div>
     </div>
+    <div v-show="this.token.length === 0" ref="login" class="login-wrapper">
+      <div class="login">
+        <span class="login-logo"></span>
+        <span v-if="this.loginPage" class="login-username">
+          <input ref="loginPhoneNumber" class="login-username-input" type="text" placeholder="手机号"/>
+          <input ref="loginPassword" class="login-username-input" type="password" placeholder="密码"/>
+          <span @click="_login" class="button">登录</span>
+          <span @click="selectRegister" class="no-account">没有账户？</span>
+        </span>
+        <span v-if="!this.loginPage" class="login-username">
+          <input class="login-username-input" type="text" placeholder="手机号"/>
+          <input class="login-username-input" type="text" placeholder="验证码"/>
+          <input class="login-username-input" type="password" placeholder="密码"/>
+          <input class="login-username-input" type="text" placeholder="真实姓名"/>
+          <input class="login-username-input" type="text" placeholder="性别(男/女)"/>
+          <input class="login-username-input" type="text" placeholder="所在班级"/>
+          <input class="login-username-input" type="text" placeholder="所在学校"/>
+          <span class="button">发送验证码</span>
+          <span class="button">注册</span>
+          <span @click="selectLogin" class="no-account">已有账户？</span>
+        </span>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -234,6 +257,8 @@
   import Scroll from 'base/scroll/scroll'
   import Star from 'components/star/star'
   import Search from 'components/search/search'
+  import {mapGetters} from 'vuex'
+  import {login} from 'api/user'
 
   export default {
     data() {
@@ -301,7 +326,8 @@
             image: 'https://ss1.baidu.com/6ONXsjip0QIZ8tyhnq/it/u=261843919,3656027470&fm=58',
             name: '庄子'
           }
-        ]
+        ],
+        loginPage: true
       }
     },
     created() {
@@ -310,6 +336,11 @@
     },
     mounted() {
       this.tab(this.tabNow)
+    },
+    computed: {
+      ...mapGetters([
+        'token'
+      ])
     },
     watch: {
       scrollY(newY) {
@@ -373,6 +404,23 @@
           default:
             break
         }
+      },
+      selectRegister() {
+        this.loginPage = !this.loginPage
+        this.$refs.login.style.height = '667px'
+      },
+      selectLogin() {
+        this.loginPage = !this.loginPage
+        this.$refs.login.style.height = '541px'
+      },
+      _login() {
+        let params = {
+          phonenumber: this.$refs.loginPhoneNumber.value,
+          password: this.$refs.loginPassword.value
+        }
+        login(params).then(res => {
+          console.log(res)
+        })
       }
     },
     components: {
@@ -449,6 +497,51 @@
             font-weight: 700
             .text
               border-none()
+    .login-wrapper
+      flex 1
+      background #f3f5f7
+      .login
+        display flex
+        flex-direction column
+        width 100%
+        .login-logo
+          margin 80px auto 0 auto
+          width 80px
+          height 80px
+          bg-image('logo')
+          background-size 80px 80px
+          background-repeat no-repeat
+        .login-username
+          margin 20px auto 0 auto
+          .login-username-input
+            display block
+            margin-top 18px
+            font-family "Songti SC"
+            font-size 14px
+            width 150px
+            height 30px
+            text-align center
+            border-radius 4px
+          .button
+            display block
+            margin-top 18px
+            font-family "Songti SC"
+            font-size 14px
+            line-height 28px
+            width 150px
+            vertical-align top
+            text-align center
+            border-radius 4px
+            background-color #42B983
+            color #eee
+          .no-account
+            display block
+            margin-top 18px
+            font-size 8px
+            font-family "Songti SC"
+            width 150px
+            text-align center
+            color: #999;
     .philosopher-wrapper
       flex 1
       background #f3f5f7

@@ -1,15 +1,37 @@
 <template>
   <div class="navigation">
     <div class="title">
-      <span class="logo"></span>
-      <h1 class="name">Philosopher</h1>
-      <img @click="" class="avatar" src="http://blog.ursb.me/img/face.png">
+      <span @click="selectHome" class="logo"></span>
+      <h1 @click="selectHome" class="name">Philosopher</h1>
+      <img @click="selectUser" class="avatar" src="http://blog.ursb.me/img/face.png">
     </div>
   </div>
 </template>
 
 <script type="text/ecmascript-6">
-  export default {}
+  import { mapGetters } from 'vuex'
+
+  export default {
+    computed: {
+      ...mapGetters([
+        'token'
+      ])
+    },
+    methods: {
+      selectUser() {
+        if (this.token.length !== 0) {
+          this.$router.push({
+            path: `/user`
+          })
+        }
+      },
+      selectHome() {
+        this.$router.push({
+          path: `/home`
+        })
+      }
+    }
+  }
 </script>
 
 <style scoped lang="stylus" rel="stylesheet/stylus">
