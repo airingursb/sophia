@@ -20,7 +20,7 @@
     </div>
     <div v-show="this.token.length !== 0" class="philosopher-wrapper">
       <div ref="editor" class="editor">
-        <span class="add"></span>
+        <span class="add" @click="selectAdd"></span>
         <span class="delete"></span>
         <span class="edit"></span>
         <span class="comment">评论</span>
@@ -415,6 +415,11 @@
       selectLogin() {
         this.loginPage = !this.loginPage
         this.$refs.login.style.height = '541px'
+      },
+      selectAdd() {
+        this.$router.push({
+          path: `/creation`
+        })
       },
       _login() {
         if (this.$refs.loginPhoneNumber.value === '' || this.$refs.loginPassword.value === '') {

@@ -13,6 +13,12 @@ const User = (resolve) => {
   })
 }
 
+const Creation = (resolve) => {
+  import('components/creation/creation').then((module) => {
+    resolve(module)
+  })
+}
+
 Vue.use(Router)
 
 export default new Router({
@@ -28,6 +34,10 @@ export default new Router({
     {
       path: '/user',
       component: User
+    },
+    {
+      path: '/creation',
+      component: Creation
     }
   ]
 })
