@@ -7,3 +7,5 @@ export const uid = state => state.uid
 export const user = state => state.user
 
 export const philosopherList = state => state.philosopherList
+
+export const philosopher = state => state.philosopher

@@ -7,3 +7,5 @@ export const SET_UID = 'SET_UID'
 export const SET_USER = 'SET_USER'
 
 export const SET_PHILOSOPHERLIST = 'SET_PHILOSOPHERLIST'
+
+export const SET_PHILOSOPHER = 'SET_PHILOSOPHER'

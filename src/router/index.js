@@ -19,6 +19,12 @@ const Creation = (resolve) => {
   })
 }
 
+const Editor = (resolve) => {
+  import('components/editor/editor').then((module) => {
+    resolve(module)
+  })
+}
+
 Vue.use(Router)
 
 export default new Router({
@@ -38,6 +44,10 @@ export default new Router({
     {
       path: '/creation',
       component: Creation
+    },
+    {
+      path: '/editor',
+      component: Editor
     }
   ]
 })

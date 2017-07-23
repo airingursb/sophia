@@ -23,8 +23,8 @@
       <div ref="editor" class="editor">
         <span class="add" @click="selectAdd"></span>
         <span class="delete"></span>
-        <span class="edit"></span>
-        <span class="comment">评论</span>
+        <span class="edit" @click="selectEdit"></span>
+        <span class="comment" @click="selectComment">评论</span>
       </div>
       <div class="philosopher">
         <div class="info">
@@ -45,8 +45,8 @@
           <div class="center-content">
             <h3 class="center-title">哲学主张</h3>
             <div class="center-text-wrapper">
-              <span class="center-text">子曰："恭而无礼则劳，慎而无礼则葸，勇而无礼则乱，直而无礼则绞。" （《论语·泰伯》）</span>
-              <span class="center-text">颜渊问仁。子曰："克己复礼为仁。一日克己复礼，天下归仁焉。为仁由己，而由人乎哉？"颜渊曰："请问其目。"子曰："非礼勿视，非礼勿听，非礼勿言，非礼勿动。"颜渊曰："回虽不敏，请事斯语矣。"（《论语·颜渊》）</span>
+              <span v-for="item in philosopher.ideas"
+                    class="center-text">{{item.content}}（《{{item.frombook}}·{{item.frompaper}}》）</span>
             </div>
           </div>
         </div>
@@ -71,155 +71,46 @@
             </div>
             <div v-show="this.tabNow === 1" class="tab-content-1">
               <ul>
-                <li class="work-item">
-                  <a href="" class="work-item-title">《论语》</a>
-                  <star class="work-item-score" :size="24" :score="4.5"></star>
-                </li>
-                <li class="work-item">
-                  <a href="" class="work-item-title">《论语》</a>
-                  <star class="work-item-score" :size="24" :score="4.5"></star>
-                </li>
-                <li class="work-item">
-                  <a href="" class="work-item-title">《论语》</a>
-                  <star class="work-item-score" :size="24" :score="4.5"></star>
-                </li>
-                <li class="work-item">
-                  <a href="" class="work-item-title">《论语》</a>
-                  <star class="work-item-score" :size="24" :score="4.5"></star>
-                </li>
-                <li class="work-item">
-                  <a href="" class="work-item-title">《论语》</a>
-                  <star class="work-item-score" :size="24" :score="4.5"></star>
+                <li class="work-item" v-for="item in philosopher.works">
+                  <a :href="item.worksurl" class="work-item-title">《{{item.worksname}}》</a>
+                  <star class="work-item-score" :size="24" :score="item.rating"></star>
                 </li>
               </ul>
             </div>
             <div v-show="this.tabNow === 2" class="tab-content-2">
               <ul>
-                <li class="work-item">
-                  <a href="" class="work-item-title">“仁义礼智信”:儒家道德教化思想的现代价值</a>
-                  <star class="work-item-score" :size="24" :score="5"></star>
-                </li>
-                <li class="work-item">
-                  <a href="" class="work-item-title">“恭宽信敏惠”:儒家治国理政思想的现代启示</a>
-                  <star class="work-item-score" :size="24" :score="4.5"></star>
-                </li>
-                <li class="work-item">
-                  <a href="" class="work-item-title">“天地君亲师”:儒家精神信仰思想的现代转化</a>
-                  <star class="work-item-score" :size="24" :score="4.5"></star>
-                </li>
-                <li class="work-item">
-                  <a href="" class="work-item-title">“中庸”本义及其管理哲学价值</a>
-                  <star class="work-item-score" :size="24" :score="4"></star>
-                </li>
-                <li class="work-item">
-                  <a href="" class="work-item-title">“仁义礼智信”:儒家道德教化思想的现代价值</a>
-                  <star class="work-item-score" :size="24" :score="5"></star>
-                </li>
-                <li class="work-item">
-                  <a href="" class="work-item-title">“恭宽信敏惠”:儒家治国理政思想的现代启示</a>
-                  <star class="work-item-score" :size="24" :score="4.5"></star>
-                </li>
-                <li class="work-item">
-                  <a href="" class="work-item-title">“天地君亲师”:儒家精神信仰思想的现代转化</a>
-                  <star class="work-item-score" :size="24" :score="4.5"></star>
-                </li>
-                <li class="work-item">
-                  <a href="" class="work-item-title">“中庸”本义及其管理哲学价值</a>
-                  <star class="work-item-score" :size="24" :score="4"></star>
-                </li>
-                <li class="work-item">
-                  <a href="" class="work-item-title">“仁义礼智信”:儒家道德教化思想的现代价值</a>
-                  <star class="work-item-score" :size="24" :score="5"></star>
-                </li>
-                <li class="work-item">
-                  <a href="" class="work-item-title">“恭宽信敏惠”:儒家治国理政思想的现代启示</a>
-                  <star class="work-item-score" :size="24" :score="4.5"></star>
-                </li>
-                <li class="work-item">
-                  <a href="" class="work-item-title">“天地君亲师”:儒家精神信仰思想的现代转化</a>
-                  <star class="work-item-score" :size="24" :score="4.5"></star>
-                </li>
-                <li class="work-item">
-                  <a href="" class="work-item-title">“中庸”本义及其管理哲学价值</a>
-                  <star class="work-item-score" :size="24" :score="4"></star>
-                </li>
-                <li class="work-item">
-                  <a href="" class="work-item-title">“仁义礼智信”:儒家道德教化思想的现代价值</a>
-                  <star class="work-item-score" :size="24" :score="5"></star>
-                </li>
-                <li class="work-item">
-                  <a href="" class="work-item-title">“恭宽信敏惠”:儒家治国理政思想的现代启示</a>
-                  <star class="work-item-score" :size="24" :score="4.5"></star>
-                </li>
-                <li class="work-item">
-                  <a href="" class="work-item-title">“天地君亲师”:儒家精神信仰思想的现代转化</a>
-                  <star class="work-item-score" :size="24" :score="4.5"></star>
-                </li>
-                <li class="work-item">
-                  <a href="" class="work-item-title">“中庸”本义及其管理哲学价值</a>
-                  <star class="work-item-score" :size="24" :score="4"></star>
-                </li>
-                <li class="work-item">
-                  <a href="" class="work-item-title">“仁义礼智信”:儒家道德教化思想的现代价值</a>
-                  <star class="work-item-score" :size="24" :score="5"></star>
-                </li>
-                <li class="work-item">
-                  <a href="" class="work-item-title">“恭宽信敏惠”:儒家治国理政思想的现代启示</a>
-                  <star class="work-item-score" :size="24" :score="4.5"></star>
-                </li>
-                <li class="work-item">
-                  <a href="" class="work-item-title">“天地君亲师”:儒家精神信仰思想的现代转化</a>
-                  <star class="work-item-score" :size="24" :score="4.5"></star>
-                </li>
-                <li class="work-item">
-                  <a href="" class="work-item-title">“中庸”本义及其管理哲学价值</a>
-                  <star class="work-item-score" :size="24" :score="4"></star>
-                </li>
-                <li class="work-item">
-                  <a href="" class="work-item-title">“仁义礼智信”:儒家道德教化思想的现代价值</a>
-                  <star class="work-item-score" :size="24" :score="5"></star>
-                </li>
-                <li class="work-item">
-                  <a href="" class="work-item-title">“恭宽信敏惠”:儒家治国理政思想的现代启示</a>
-                  <star class="work-item-score" :size="24" :score="4.5"></star>
-                </li>
-                <li class="work-item">
-                  <a href="" class="work-item-title">“天地君亲师”:儒家精神信仰思想的现代转化</a>
-                  <star class="work-item-score" :size="24" :score="4.5"></star>
-                </li>
-                <li class="work-item">
-                  <a href="" class="work-item-title">“中庸”本义及其管理哲学价值</a>
-                  <star class="work-item-score" :size="24" :score="4"></star>
+                <li class="work-item" v-for="item in philosopher.papers">
+                  <a :href="item.paper_url" class="work-item-title">{{item.paper_name}}</a>
+                  <star class="work-item-score" :size="24" :score="item.rating"></star>
                 </li>
               </ul>
             </div>
             <div v-show="this.tabNow === 3" class="tab-content-3">
-              1
+              <ul>
+                <li class="work-item" v-for="item in philosopher.data">
+                  <a :href="item.url" class="work-item-title">{{item.name}}</a>
+                  <star class="work-item-score" :size="24" :score="item.rating"></star>
+                </li>
+              </ul>
             </div>
           </div>
           <div class="right-content">
             <div class="tag-wrapper">
-              <h3 class="right-content-title">标签</h3>
-              <ul>
-                <li class="tags">
-                  <span><a class="tag" href="">儒学</a></span>
-                </li>
-                <li class="tags">
-                  <span><a class="tag" href="">伦理学</a></span>
-                </li>
-                <li class="tags">
-                  <span><a class="tag" href="">社会哲学</a></span>
+              <h3 class="right-content-title">标签<span class="icon-tag" @click="_addTag"></span></h3>
+              <ul v-if="philosopher.tags !== ''">
+                <li class="tags" v-for="tag in philosopher.tags.split(',')">
+                  <span><a class="tag" href="">{{tag}}</a></span>
                 </li>
               </ul>
             </div>
             <div class="tag-wrapper">
               <h3 class="right-content-title">评论</h3>
               <ul>
-                <li class="comments">
+                <li class="comments" v-for="item in philosopher.comments">
                   <span class="comment">
-                    <img class="comment-avatar" src="http://blog.ursb.me/img/face.png"/>
-                    <span class="comment-user-name">邓国雄 · 17 中哲</span>
-                    <span class="comment-content">孔子的伟大之处，他不仅把外王——追求理想社会看成是崇高目标，而且同时把内圣——追求理想的人格作为崇高目标，由于理想社会取决于时命，因此成就理想人格甚至有更优先的意义。 </span>
+                    <img class="comment-avatar" :src="item.face_url"/>
+                    <span class="comment-user-name">{{item.username}} · {{item.className}}</span>
+                    <span class="comment-content">{{item.msg}}</span>
                   </span>
                 </li>
               </ul>
@@ -245,7 +136,7 @@
           <input ref="registerSex" class="login-username-input" type="text" placeholder="性别(男/女)"/>
           <input ref="registerClassName" class="login-username-input" type="text" placeholder="所在班级"/>
           <input ref="registerSchool" class="login-username-input" type="text" placeholder="所在学校"/>
-          <span class="button">发送验证码</span>
+          <span @click="_code" class="button">发送验证码</span>
           <span @click="_register" class="button">注册</span>
           <span @click="selectLogin" class="no-account">已有账户？</span>
         </span>
@@ -259,8 +150,8 @@
   import Star from 'components/star/star'
   import Search from 'components/search/search'
   import { mapGetters, mapMutations, mapActions } from 'vuex'
-  import { login, register } from 'api/user'
-  import { showList, showDetail } from 'api/philosopher'
+  import { login, register, code } from 'api/user'
+  import { showList, showDetail, addComment, addTag } from 'api/philosopher'
   import sha1 from 'sha1'
 
   export default {
@@ -269,7 +160,7 @@
         tabNow: 0,
         scrollY: 0,
         loginPage: true,
-        philosopher: {}
+        codeTime: 0
       }
     },
     created() {
@@ -285,7 +176,9 @@
         'token',
         'timestamp',
         'uid',
-        'philosopherList'
+        'user',
+        'philosopherList',
+        'philosopher'
       ])
     },
     watch: {
@@ -360,9 +253,52 @@
         this.$refs.login.style.height = '541px'
       },
       selectAdd() {
-        this.$router.push({
-          path: `/creation`
-        })
+        if (this.user.state === '1') {
+          this.$router.push({
+            path: `/creation`
+          })
+        } else {
+          this.$swal('没有权限!', '对不起，你没有权限管理社区知识的权限！请联系管理员进行认证', 'error')
+        }
+      },
+      selectEdit() {
+        if (this.user.state === '1') {
+          this.$router.push({
+            path: `/editor`
+          })
+        } else {
+          this.$swal('没有权限!', '对不起，你没有权限管理社区知识的权限！请联系管理员进行认证', 'error')
+        }
+      },
+      selectComment() {
+        if (this.user.state === '1') {
+          this.$swal({
+            title: '请您点评该哲学家',
+            input: 'text',
+            showCancelButton: true,
+            confirmButtonText: '提交',
+            showLoaderOnConfirm: true,
+            preConfirm: (text) => {
+              let params = {
+                uid: this.uid,
+                timestamp: this.timestamp,
+                token: this.token,
+                msg: text,
+                pid: this.philosopher.id
+              }
+              addComment(params).then(res => {
+                if (res.status === 0) {
+                  this.$swal('评论成功！', '感谢您为社区知识所做的贡献：）', 'success')
+                } else {
+                  this.$swal('连接失败!', '请检查自己的网络状态或联系管理员！', 'error')
+                }
+              })
+            },
+            allowOutsideClick: false
+          })
+        } else {
+          this.$swal('没有权限!', '对不起，你没有进行实名认证无权发表评论！请联系管理员进行认证', 'error')
+        }
       },
       selectItem(pid) {
         let params = {
@@ -372,13 +308,42 @@
           pid: pid
         }
         showDetail(params).then(res => {
-          console.log(res)
           if (res.status === 0) {
-            this.philosopher = res.data
+            this.setPhilosopher(res.data)
           } else {
             this.$swal('连接失败!', '请检查自己的网络状态或联系管理员！', 'error')
           }
         })
+      },
+      _addTag() {
+        if (this.user.state === '1') {
+          this.$swal({
+            title: '请为该哲学家添加标签',
+            input: 'text',
+            showCancelButton: true,
+            confirmButtonText: '提交',
+            showLoaderOnConfirm: true,
+            preConfirm: (text) => {
+              let params = {
+                uid: this.uid,
+                timestamp: this.timestamp,
+                token: this.token,
+                tag: text,
+                pid: this.philosopher.id
+              }
+              addTag(params).then(res => {
+                if (res.status === 0) {
+                  this.$swal('添加成功！', '感谢您为社区知识所做的贡献：）', 'success')
+                } else {
+                  this.$swal('添加失败!', '该标签已存在，请不要重复添加！', 'error')
+                }
+              })
+            },
+            allowOutsideClick: false
+          })
+        } else {
+          this.$swal('没有权限!', '对不起，你没有进行实名认证无权添加标签！请联系管理员进行认证', 'error')
+        }
       },
       _login() {
         if (this.$refs.loginPhoneNumber.value === '' || this.$refs.loginPassword.value === '') {
@@ -405,6 +370,25 @@
           }
         })
       },
+      _code() {
+        if (this.$refs.registerPhoneNumber.value === '') {
+          this.$swal('获取验证码识别！', '请填写正确格式的手机号', 'error')
+          return
+        }
+        this.codeTime = +new Date()
+        let params = {
+          phonenumber: this.$refs.registerPhoneNumber.value,
+          timestamp: this.codeTime
+        }
+        code(params).then(res => {
+          console.log(res)
+          if (res.status === 0) {
+            this.$swal('获取验证码成功！', '获取验证码成功！快快查收您的验证码~', 'success')
+          } else {
+            this.$swal('获取验证码失败！', '您刚才请求过了，等10分钟再试一次吧~', 'error')
+          }
+        })
+      },
       _register() {
         let params = {
           phonenumber: this.$refs.registerPhoneNumber.value,
@@ -413,7 +397,8 @@
           username: this.$refs.registerUsername.value,
           sex: this.$refs.registerSex.value === '男' ? 0 : 1,
           className: this.$refs.registerClassName.value,
-          school: this.$refs.registerSchool.value
+          school: this.$refs.registerSchool.value,
+          timestamp: this.codeTime
         }
         register(params).then(res => {
           console.log(res)
@@ -428,13 +413,12 @@
       _showList() {
         showList().then(res => {
           this.setPhilosopherList(res.data)
-//          this.$nextTick(() => {
-//            this.selectItem(res.data.pid)
-//          })
+          this.selectItem(res.data[0].pid)
         })
       },
       ...mapMutations({
-        setPhilosopherList: 'SET_PHILOSOPHERLIST'
+        setPhilosopherList: 'SET_PHILOSOPHERLIST',
+        setPhilosopher: 'SET_PHILOSOPHER'
       }),
       ...mapActions([
         'saveLogin'
@@ -599,7 +583,6 @@
           background-size 20px 20px
           background-repeat no-repeat
           bg-image('edit')
-
         .comment
           position absolute
           top 12px
@@ -613,6 +596,8 @@
           font-size 12px
           line-height 19px
           color rgb(255, 255, 255)
+          &:hover
+            background-color #3BA170
       .philosopher
         display flex
         flex-direction column
@@ -763,6 +748,14 @@
               margin 15px 15px
               .right-content-title
                 font-size 14px
+                .icon-tag
+                  display inline-block
+                  margin-left 8px
+                  width 13px
+                  height 12px
+                  bg-image('tag')
+                  background-size 13px 12px
+                  background-repeat no-repeat
               .tags
                 display inline-block
                 vertical-align top
@@ -785,7 +778,7 @@
                   margin-top 2px
                   font-size 10px
                 .comment-content
-                  display inline-block
+                  display block
                   vertical-align top
                   margin-top 2px
                   font-size 10px

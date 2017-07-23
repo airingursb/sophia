@@ -5,7 +5,8 @@ const state = {
   timestamp: loadTimestamp(),
   uid: loadUid(),
   user: loadUser(),
-  philosopherList: []
+  philosopherList: [],
+  philosopher: {}
 }
 
 export default state
