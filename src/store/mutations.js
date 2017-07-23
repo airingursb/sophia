@@ -9,6 +9,9 @@ const mutations = {
   },
   [types.SET_UID](state, uid) {
     state.uid = uid
+  },
+  [types.SET_USER](state, user) {
+    state.user = user
   }
 }
 

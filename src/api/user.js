@@ -10,3 +10,9 @@ export function register(params) {
   const url = HOST + '/users/register'
   return jsonp(url, params)
 }
+
+export function updateFace(params) {
+  const url = HOST + '/users/update_face'
+  return jsonp(url, params)
+}
+

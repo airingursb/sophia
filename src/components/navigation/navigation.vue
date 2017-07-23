@@ -3,7 +3,9 @@
     <div class="title">
       <span @click="selectHome" class="logo"></span>
       <h1 @click="selectHome" class="name">Philosopher</h1>
-      <img @click="selectUser" class="avatar" src="http://blog.ursb.me/img/face.png">
+      <img @click="selectUser"
+           class="avatar"
+           :src="this.user.face ? this.user.face : 'http://airing.ursb.me/image/cover/philosopherlogo.png'">
     </div>
   </div>
 </template>
@@ -14,7 +16,8 @@
   export default {
     computed: {
       ...mapGetters([
-        'token'
+        'token',
+        'user'
       ])
     },
     methods: {

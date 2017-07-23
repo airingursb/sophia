@@ -431,7 +431,8 @@
             let data = {
               token: res.token,
               timestamp: res.timestamp,
-              uid: res.data.id
+              uid: res.data.id,
+              user: res.data
             }
             this.saveLogin(data)
             this.$swal('登录成功!', '登录成功！欢迎来到哲学世界！', 'success')
@@ -452,6 +453,12 @@
         }
         register(params).then(res => {
           console.log(res)
+          if (res.status === 0) {
+            this.$swal('注册成功！', '恭喜你注册成功啦，快去登录吧~', 'success')
+            this.loginPage = true
+          } else {
+            this.$swal('注册失败!', '请检查您的信息是否已经填写完全。', 'warning')
+          }
         })
       },
       ...mapActions([
