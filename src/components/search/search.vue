@@ -1,13 +1,19 @@
 <template>
   <div class="search-box">
     <i class="icon-search"></i>
-    <input ref="query" v-model="query" class="box" :placeholder="placeholder"/>
+    <input ref="query"
+           v-model="query"
+           class="box"
+           :placeholder="placeholder"
+           @keyup.enter="_search"/>
     <i @click="clear" v-show="query" class="icon-dismiss"></i>
   </div>
 </template>
 
 <script type="text/ecmascript-6">
-  import {debounce} from 'common/js/util'
+  import { debounce } from 'common/js/util'
+  import { showList, search } from 'api/philosopher'
+  import { mapMutations } from 'vuex'
 
   export default {
     props: {
@@ -22,15 +28,30 @@
       }
     },
     methods: {
+      _search() {
+        let params = {
+          search: this.query
+        }
+        search(params).then(res => {
+          console.log(res)
+          this.setPhilosopherList(res.data)
+        })
+      },
       clear() {
         this.query = ''
+        showList().then(res => {
+          this.setPhilosopherList(res.data)
+        })
       },
       setQuery(query) {
         this.query = query
       },
       blur() {
         this.$refs.query.blur()
-      }
+      },
+      ...mapMutations({
+        setPhilosopherList: 'SET_PHILOSOPHERLIST'
+      })
     },
     created() {
       this.$watch('query', debounce((newQuery) => {

@@ -1,20 +1,21 @@
 <template>
   <div class="home">
     <div class="left-wrapper">
-      <search class="search-layer" ref="layer"></search>
+      <search class="search-layer"
+              ref="layer">
+      </search>
       <scroll @scroll="scroll"
               :listen-scroll="listenScroll"
               :probe-type="probeType"
               class="menu-wrapper"
               ref="list"
               :data="philosopherList">
-        <div>
-          <div v-for="item in philosopherList" class="menu-item">
-          <span class="text border-1px">
-            <img class="icon" :src="item.image">
+        <div v-for="item in philosopherList"
+             class="menu-item">
+          <span @click.stop="selectItem(item.pid)" ref="item" class="text border-1px">
+            <img class="icon" :src="item.avatar">
             <span class="item-name">{{item.name}}</span>
           </span>
-          </div>
         </div>
       </scroll>
     </div>
@@ -30,14 +31,14 @@
           <img class="info-avatar"
                src="https://ss0.bdstatic.com/94oJfD_bAAcT8t7mm9GUKT-xh_/timg?image&quality=100&size=b4000_4000&sec=1500621920&di=3527054be43117fe88831fb8f7878aa7&src=http://a3.att.hudong.com/26/10/300000894425128082107120916_950.jpg">
           <div class="info-name">
-            <h2 class="philosopher-name">孔子</h2>
-            <h2 class="philosopher-name">Confucius</h2>
+            <h2 class="philosopher-name">{{this.philosopher.name}}</h2>
+            <h2 class="philosopher-name">{{this.philosopher.englishname}}</h2>
           </div>
           <div class="info-content">
-            <span class="idea">主要思想：儒学</span>
-            <span class="place">地区：中国</span>
-            <span class="time">时代：鲁襄公廿一年~鲁哀公十六年</span>
-            <span class="url">维基百科：<a href="https://www.wiki.com/kongzi">https://www.wiki.com/Confucius</a></span>
+            <span class="idea">主要思想：{{this.philosopher.mainidea}}</span>
+            <span class="place">地区：{{this.philosopher.place}}</span>
+            <span class="time">时代：{{this.philosopher.time}}</span>
+            <span class="url">维基百科：<a :href="this.philosopher.wiki">{{this.philosopher.wiki}}</a></span>
           </div>
         </div>
         <div class="center-wrapper">
@@ -66,7 +67,7 @@
               </div>
             </div>
             <div v-show="this.tabNow === 0" class="tab-content-0">
-              孔丘（约前551年－约前479年），子姓后裔，孔氏，名丘，字仲尼，后代敬称孔子或孔夫子。生于鲁国陬邑，祖先为宋国人，东周春秋末期鲁国的教育家与哲学家，曾在鲁国担任官府要职。为儒家的创始人。而孔子儒家的德性论五行思想（仁义礼智信）对邻近地区，如：朝鲜半岛、琉球、日本、越南、东南亚等地区有着深远的影响，这些地区也被称为儒家文化圈；孔子儒家的太极、理、气和人文思想对西方也产生了深刻影响。
+              {{this.philosopher.introduce}}
             </div>
             <div v-show="this.tabNow === 1" class="tab-content-1">
               <ul>
@@ -257,8 +258,9 @@
   import Scroll from 'base/scroll/scroll'
   import Star from 'components/star/star'
   import Search from 'components/search/search'
-  import { mapGetters, mapActions } from 'vuex'
+  import { mapGetters, mapMutations, mapActions } from 'vuex'
   import { login, register } from 'api/user'
+  import { showList, showDetail } from 'api/philosopher'
   import sha1 from 'sha1'
 
   export default {
@@ -266,74 +268,14 @@
       return {
         tabNow: 0,
         scrollY: 0,
-        philosopherList: [
-          {
-            image: 'https://ss0.bdstatic.com/94oJfD_bAAcT8t7mm9GUKT-xh_/timg?image&quality=100&size=b4000_4000&sec=1500621920&di=3527054be43117fe88831fb8f7878aa7&src=http://a3.att.hudong.com/26/10/300000894425128082107120916_950.jpg',
-            name: '孔子'
-          },
-          {
-            image: 'https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=2197293396,2805254920&fm=117&gp=0.jpg',
-            name: '老子'
-          },
-          {
-            image: 'https://ss2.baidu.com/6ONYsjip0QIZ8tyhnq/it/u=2046229040,1880117538&fm=58&u_exp_0=1479195425,1546812128&fm_exp_0=86&bpow=300&bpoh=441',
-            name: '墨子'
-          },
-          {
-            image: 'https://ss1.baidu.com/6ONXsjip0QIZ8tyhnq/it/u=261843919,3656027470&fm=58',
-            name: '庄子'
-          },
-          {
-            image: 'https://ss1.baidu.com/6ONXsjip0QIZ8tyhnq/it/u=261843919,3656027470&fm=58',
-            name: '庄子'
-          },
-          {
-            image: 'https://ss1.baidu.com/6ONXsjip0QIZ8tyhnq/it/u=261843919,3656027470&fm=58',
-            name: '庄子'
-          },
-          {
-            image: 'https://ss1.baidu.com/6ONXsjip0QIZ8tyhnq/it/u=261843919,3656027470&fm=58',
-            name: '庄子'
-          },
-          {
-            image: 'https://ss1.baidu.com/6ONXsjip0QIZ8tyhnq/it/u=261843919,3656027470&fm=58',
-            name: '庄子'
-          },
-          {
-            image: 'https://ss1.baidu.com/6ONXsjip0QIZ8tyhnq/it/u=261843919,3656027470&fm=58',
-            name: '庄子'
-          },
-          {
-            image: 'https://ss1.baidu.com/6ONXsjip0QIZ8tyhnq/it/u=261843919,3656027470&fm=58',
-            name: '庄子'
-          },
-          {
-            image: 'https://ss1.baidu.com/6ONXsjip0QIZ8tyhnq/it/u=261843919,3656027470&fm=58',
-            name: '庄子'
-          },
-          {
-            image: 'https://ss1.baidu.com/6ONXsjip0QIZ8tyhnq/it/u=261843919,3656027470&fm=58',
-            name: '庄子'
-          },
-          {
-            image: 'https://ss1.baidu.com/6ONXsjip0QIZ8tyhnq/it/u=261843919,3656027470&fm=58',
-            name: '庄子'
-          },
-          {
-            image: 'https://ss1.baidu.com/6ONXsjip0QIZ8tyhnq/it/u=261843919,3656027470&fm=58',
-            name: '庄子'
-          },
-          {
-            image: 'https://ss1.baidu.com/6ONXsjip0QIZ8tyhnq/it/u=261843919,3656027470&fm=58',
-            name: '庄子'
-          }
-        ],
-        loginPage: true
+        loginPage: true,
+        philosopher: {}
       }
     },
     created() {
       this.probeType = 3
       this.listenScroll = true
+      this._showList()
     },
     mounted() {
       this.tab(this.tabNow)
@@ -342,7 +284,8 @@
       ...mapGetters([
         'token',
         'timestamp',
-        'uid'
+        'uid',
+        'philosopherList'
       ])
     },
     watch: {
@@ -421,9 +364,25 @@
           path: `/creation`
         })
       },
+      selectItem(pid) {
+        let params = {
+          uid: this.uid,
+          token: this.token,
+          timestamp: this.timestamp,
+          pid: pid
+        }
+        showDetail(params).then(res => {
+          console.log(res)
+          if (res.status === 0) {
+            this.philosopher = res.data
+          } else {
+            this.$swal('连接失败!', '请检查自己的网络状态或联系管理员！', 'error')
+          }
+        })
+      },
       _login() {
         if (this.$refs.loginPhoneNumber.value === '' || this.$refs.loginPassword.value === '') {
-          this.$swal('登录失败!', '请输入账号和密码！', 'warning')
+          this.$swal('登录失败!', '请输入账号和密码！', 'error')
           return
         }
         let params = {
@@ -442,7 +401,7 @@
             this.saveLogin(data)
             this.$swal('登录成功!', '登录成功！欢迎来到哲学世界！', 'success')
           } else {
-            this.$swal('登录失败!', '用户名或密码错误！', 'warning')
+            this.$swal('登录失败!', '用户名或密码错误！', 'error')
           }
         })
       },
@@ -462,10 +421,21 @@
             this.$swal('注册成功！', '恭喜你注册成功啦，快去登录吧~', 'success')
             this.loginPage = true
           } else {
-            this.$swal('注册失败!', '请检查您的信息是否已经填写完全。', 'warning')
+            this.$swal('注册失败!', '请检查您的信息是否已经填写完全。', 'error')
           }
         })
       },
+      _showList() {
+        showList().then(res => {
+          this.setPhilosopherList(res.data)
+//          this.$nextTick(() => {
+//            this.selectItem(res.data.pid)
+//          })
+        })
+      },
+      ...mapMutations({
+        setPhilosopherList: 'SET_PHILOSOPHERLIST'
+      }),
       ...mapActions([
         'saveLogin'
       ])

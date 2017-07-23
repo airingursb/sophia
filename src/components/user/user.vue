@@ -1,5 +1,5 @@
 <template>
-  <div class="user">
+  <div class="user" v-if="this.token.length !== 0">
     <img class="user-avatar"
          :src="this.imgDataUrl === '' ? this.user.face : this.imgDataUrl"
          @click="toggleShow">

@@ -1,6 +1,6 @@
 <template>
   <div class="creation">
-    <div class="creation-wrapper">
+    <div v-if="this.token.length !== 0" class="creation-wrapper">
       <h2 class="creation-input">录入哲学家</h2>
       <input ref="creationName" class="creation-input" type="text" placeholder="名字"/>
       <input ref="creationEnglishName" class="creation-input" type="url" placeholder="英文名"/>
@@ -54,7 +54,7 @@
               })
             })
           } else {
-            this.$swal('录入失败!', '网络状态不稳定，请联系管理员或稍后再试！', 'warning')
+            this.$swal('录入失败!', '网络状态不稳定，请联系管理员或稍后再试！', 'error')
           }
         })
       }
