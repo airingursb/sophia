@@ -7,3 +7,10 @@ export const saveLogin = function ({commit}, data) {
   commit(types.SET_UID, saveUid(data.uid))
   commit(types.SET_USER, saveUser(data.user))
 }
+
+export const clearLogin = function ({commit}) {
+  commit(types.SET_TOKEN, '')
+  commit(types.SET_TIMESTAMP, '')
+  commit(types.SET_UID, '')
+  commit(types.SET_USER, {})
+}

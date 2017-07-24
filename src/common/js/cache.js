@@ -40,3 +40,8 @@ export function saveUser(user) {
 export function loadUser() {
   return storage.get(USER_KEY, [])
 }
+
+export function clearCache() {
+  return storage.clear()
+}
+

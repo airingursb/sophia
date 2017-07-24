@@ -18,6 +18,9 @@ const mutations = {
   },
   [types.SET_PHILOSOPHER](state, philosopher) {
     state.philosopher = philosopher
+  },
+  [types.SET_LISTREFRESH](state, listRefresh) {
+    state.listRefresh = listRefresh
   }
 }
 

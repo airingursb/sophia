@@ -17,7 +17,7 @@
 
 <script type="text/ecmascript-6">
   import { addPhilosopher } from 'api/philosopher'
-  import { mapGetters } from 'vuex'
+  import { mapGetters, mapMutations } from 'vuex'
 
   export default {
     computed: {
@@ -49,6 +49,7 @@
         addPhilosopher(params).then(res => {
           if (res.status === 0) {
             this.$swal('录入成功!', '录入成功！感谢您对社区知识所做的贡献！', 'success').then(() => {
+              this.setListRefresh(1)
               this.$router.push({
                 path: `/home`
               })
@@ -57,7 +58,10 @@
             this.$swal('录入失败!', '网络状态不稳定，请联系管理员或稍后再试！', 'error')
           }
         })
-      }
+      },
+      ...mapMutations({
+        setListRefresh: 'SET_LISTREFRESH'
+      })
     }
   }
 </script>

@@ -22,14 +22,14 @@
     <div v-show="this.token.length !== 0" class="philosopher-wrapper">
       <div ref="editor" class="editor">
         <span class="add" @click="selectAdd"></span>
-        <span class="delete"></span>
+        <span class="delete" @click="selectDelete"></span>
         <span class="edit" @click="selectEdit"></span>
         <span class="comment" @click="selectComment">评论</span>
       </div>
       <div class="philosopher">
         <div class="info">
           <img class="info-avatar"
-               src="https://ss0.bdstatic.com/94oJfD_bAAcT8t7mm9GUKT-xh_/timg?image&quality=100&size=b4000_4000&sec=1500621920&di=3527054be43117fe88831fb8f7878aa7&src=http://a3.att.hudong.com/26/10/300000894425128082107120916_950.jpg">
+               :src="this.philosopher.avatar">
           <div class="info-name">
             <h2 class="philosopher-name">{{this.philosopher.name}}</h2>
             <h2 class="philosopher-name">{{this.philosopher.englishname}}</h2>
@@ -99,7 +99,7 @@
               <h3 class="right-content-title">标签<span class="icon-tag" @click="_addTag"></span></h3>
               <ul v-if="philosopher.tags !== ''">
                 <li class="tags" v-for="tag in philosopher.tags.split(',')">
-                  <span><a class="tag" href="">{{tag}}</a></span>
+                  <span class="tag" @click="_showTags(tag)">{{tag}}</span>
                 </li>
               </ul>
             </div>
@@ -151,7 +151,7 @@
   import Search from 'components/search/search'
   import { mapGetters, mapMutations, mapActions } from 'vuex'
   import { login, register, code } from 'api/user'
-  import { showList, showDetail, addComment, addTag } from 'api/philosopher'
+  import { showList, showDetail, addComment, addTag, showTags } from 'api/philosopher'
   import sha1 from 'sha1'
 
   export default {
@@ -170,6 +170,7 @@
     },
     mounted() {
       this.tab(this.tabNow)
+      this._showList()
     },
     computed: {
       ...mapGetters([
@@ -178,7 +179,8 @@
         'uid',
         'user',
         'philosopherList',
-        'philosopher'
+        'philosopher',
+        'listRefresh'
       ])
     },
     watch: {
@@ -187,6 +189,12 @@
         this.$refs.layer.$el.style['webkitTransform'] = `translate3d(0, ${newY}px, 0)`
         if (newY > -40) {
           this.$refs.list.$el.style.top = 90 + newY + 'px'
+        }
+      },
+      listRefresh(newListRefresh) {
+        if (newListRefresh === 1) {
+          this._showList()
+          this.setListRefresh(0)
         }
       }
     },
@@ -246,7 +254,7 @@
       },
       selectRegister() {
         this.loginPage = !this.loginPage
-        this.$refs.login.style.height = '667px'
+        this.$refs.login.style.height = '700px'
       },
       selectLogin() {
         this.loginPage = !this.loginPage
@@ -260,6 +268,9 @@
         } else {
           this.$swal('没有权限!', '对不起，你没有权限管理社区知识的权限！请联系管理员进行认证', 'error')
         }
+      },
+      selectDelete() {
+        this.$swal('没有权限!', '对不起，你没有权限管理社区知识的权限！请联系管理员进行认证', 'error')
       },
       selectEdit() {
         if (this.user.state === '1') {
@@ -345,6 +356,21 @@
           this.$swal('没有权限!', '对不起，你没有进行实名认证无权添加标签！请联系管理员进行认证', 'error')
         }
       },
+      _showTags(tag) {
+        let params = {
+          uid: this.uid,
+          token: this.token,
+          timestamp: this.timestamp,
+          tag: tag
+        }
+        console.log('res')
+        showTags(params).then(res => {
+          if (res.status === 0) {
+            this.setPhilosopherList(res.data)
+            this.selectItem(res.data[0].pid)
+          }
+        })
+      },
       _login() {
         if (this.$refs.loginPhoneNumber.value === '' || this.$refs.loginPassword.value === '') {
           this.$swal('登录失败!', '请输入账号和密码！', 'error')
@@ -418,7 +444,8 @@
       },
       ...mapMutations({
         setPhilosopherList: 'SET_PHILOSOPHERLIST',
-        setPhilosopher: 'SET_PHILOSOPHER'
+        setPhilosopher: 'SET_PHILOSOPHER',
+        setListRefresh: 'SET_LISTREFRESH'
       }),
       ...mapActions([
         'saveLogin'

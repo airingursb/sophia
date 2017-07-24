@@ -1,6 +1,17 @@
-# philosopher
+# Sophia
 
-> Philosopher
+线上地址：[https://sopher.group](https://sopher.group)
+
+Sophia：哲学知识共享社区
+
+![](http://airing.ursb.me/image/cover/sophia-shot.png)
+
+## GitHub
+
+* 前端：(https://github.com/airingursb/sophia)[https://github.com/airingursb/sophia]
+
+* 服务端：(https://github.com/airingursb/sophia-back-end)[https://github.com/airingursb/sophia-back-end]
+
 
 ## Build Setup
 

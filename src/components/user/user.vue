@@ -23,12 +23,14 @@
       <span class="user-text">性别：{{this.user.sex === 0 ? '男' : '女'}}</span>
       <span class="user-text">学校：{{this.user.school}}</span>
       <span class="user-text">班级：{{this.user.className}}</span>
+      <span @click="_exit" class="button">退出登录</span>
     </div>
   </div>
 </template>
 
 <script type="text/ecmascript-6">
   import myUpload from 'vue-image-crop-upload/upload-2.vue'
+  import { clearCache } from 'common/js/cache'
   import { updateFace } from 'api/user'
   import { mapGetters, mapActions } from 'vuex'
 
@@ -92,8 +94,17 @@
         console.log(status)
         console.log('field: ' + field)
       },
+      _exit() {
+        clearCache()
+        this.clearLogin()
+        this.$router.push({
+          path: `/home`
+        })
+        this.$swal('Good Bye', '您已退出登录，欢迎再次到来', 'success')
+      },
       ...mapActions([
-        'saveLogin'
+        'saveLogin',
+        'clearLogin'
       ])
     },
     components: {
@@ -135,4 +146,18 @@
       .user-text
         display block
         margin-top 15px
+      .button
+        display block
+        margin-top 18px
+        font-family "Songti SC"
+        font-size 14px
+        line-height 28px
+        width 150px
+        vertical-align top
+        text-align center
+        border-radius 4px
+        background-color #EE2A2A
+        color #eee
+        &:hover
+          background-color #B9211D
 </style>

@@ -2,7 +2,7 @@
   <div class="navigation">
     <div class="title">
       <span @click="selectHome" class="logo"></span>
-      <h1 @click="selectHome" class="name">Philosopher</h1>
+      <h1 @click="selectHome" class="name">Sophia</h1>
       <img @click="selectUser"
            class="avatar"
            :src="this.user.face ? this.user.face : 'http://airing.ursb.me/image/cover/philosopherlogo.png'">

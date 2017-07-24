@@ -6,6 +6,11 @@ export function showList (params) {
   return jsonp(url, params)
 }
 
+export function showTags (params) {
+  const url = HOST + '/philosophers/show_tags'
+  return jsonp(url, params)
+}
+
 export function showDetail (params) {
   const url = HOST + '/philosophers/show_detail'
   return jsonp(url, params)
