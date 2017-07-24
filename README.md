@@ -1,8 +1,14 @@
 # Sophia：哲学知识共享社区
 
-> 线上地址：[https://sopher.group](https://sopher.group)
+> * 线上地址：[https://sopher.group](https://sopher.group)
 
 ![](http://airing.ursb.me/image/cover/sophia-shot.png)
+
+## Platform
+
+1. [Chrome App 下载](https://chrome.google.com/webstore/detail/sophia/fdcjoploijfcbdkbjlnnpkianblaghmi)
+2. [MacOS App 下载](http://airing.ursb.me/app/Sophia%20for%20Mac.zip)
+3. [Windows 应用下载](http://airing.ursb.me/app/Sophia%20for%20Win.zip)
 
 > 注：目前暂不适配移动端。
 
@@ -12,7 +18,7 @@
 
 * 服务端：[https://github.com/airingursb/sophia-back-end](https://github.com/airingursb/sophia-back-end)
 
-## 技术点
+## Technology
 
 * 前端：vue-cil + vue2 + vuex + vue-router
 
