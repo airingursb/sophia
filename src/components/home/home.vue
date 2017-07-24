@@ -171,6 +171,9 @@
     mounted() {
       this.tab(this.tabNow)
       this._showList()
+      this.$on('detailChange', () => {
+        this.selectItem(this.philosopher.id)
+      })
     },
     computed: {
       ...mapGetters([
@@ -300,6 +303,7 @@
               addComment(params).then(res => {
                 if (res.status === 0) {
                   this.$swal('评论成功！', '感谢您为社区知识所做的贡献：）', 'success')
+                  this.$emit('detailChange')
                 } else {
                   this.$swal('连接失败!', '请检查自己的网络状态或联系管理员！', 'error')
                 }
@@ -345,6 +349,7 @@
               addTag(params).then(res => {
                 if (res.status === 0) {
                   this.$swal('添加成功！', '感谢您为社区知识所做的贡献：）', 'success')
+                  this.$emit('detailChange')
                 } else {
                   this.$swal('添加失败!', '该标签已存在，请不要重复添加！', 'error')
                 }
