@@ -9,6 +9,7 @@
 1. [Chrome App 下载](https://chrome.google.com/webstore/detail/sophia/fdcjoploijfcbdkbjlnnpkianblaghmi)
 2. [MacOS App 下载](http://airing.ursb.me/app/Sophia%20for%20Mac.zip)
 3. [Windows 应用下载](http://airing.ursb.me/app/Sophia%20for%20Win.zip)
+4. [Linux App 下载](http://airing.ursb.me/app/Sophia%20for%20Linux.zip)
 
 > 注：目前暂不适配移动端。
 
